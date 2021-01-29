@@ -32,18 +32,34 @@ def import_seed():
     return seed
 # seed = import_seed()
 # 911, 1831, 404, 591, 1944, 1148, 267, 1834, 711, 1862, 425, 944
-seed = ['impose', 'top', 'crater', 'enemy', 'vessel', 'moon', 'cannon', 'torch', 'flight', 'trip', 'cry', 'invite']
+seed = ['one', 'able', 'miss', 'remind', 'cruel', 'until', 'icon', 'solve', 'muscle', 'shock', 'screen', 'route']
 indexWords = []
+binWords = []
+fullentropy = ''
 for word in seed:
     for i in range(df.shape[0]):
         if word == df['bip39'][i]:
             indexWords.append(i)
+            binaryWord = bin(i)[2:]
+            if len(binaryWord) < 11:
+                binaryWord = '0'*(11 - len(binaryWord)) + binaryWord
+            binWords.append(binaryWord)
+            fullentropy = fullentropy + binaryWord
     # indexWords.append(index_word.values)
 print(indexWords)
+print(binWords)
+print(fullentropy)
+entropy = fullentropy[:-4]
+print(entropy)
+print(len(entropy))
+hashRandKey = hashlib.sha256(entropy.encode()).hexdigest()
 
+# Checksum from the hashed random number
+checksum = BitArray(hex=hashRandKey).bin[0:4]
+print(checksum)
+print(bin(944))
 
 #hash_512 = hashlib.sha512(str(root_seed).encode('ASCII')).hexdigest()
 #bin_hash = BitArray(hex=hash_512).bin
 #master_private_k = bin_hash[0:256]
 #master_chain_code = bin_hash[256::]
-#
