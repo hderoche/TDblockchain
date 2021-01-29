@@ -1,2 +1,6 @@
-# TDblockchain
-TD blockchain bitcoin
+# TD Blockchain bitcoin
+
+## Bip 39
+
+## Bip 33
+
