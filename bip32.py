@@ -58,8 +58,15 @@ hashRandKey = hashlib.sha256(entropy.encode()).hexdigest()
 checksum = BitArray(hex=hashRandKey).bin[0:4]
 print(checksum)
 print(bin(944))
+# root_seed = 
+# hash_512 = hashlib.sha512(str(root_seed).encode('ASCII')).hexdigest()
+# bin_hash = BitArray(hex=hash_512).bin
+# master_private_k = bin_hash[:256]
+# master_chain_code = bin_hash[256:]
 
-#hash_512 = hashlib.sha512(str(root_seed).encode('ASCII')).hexdigest()
-#bin_hash = BitArray(hex=hash_512).bin
-#master_private_k = bin_hash[0:256]
-#master_chain_code = bin_hash[256::]
+base_point = '0279BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F81798'
+basePoint = BitArray(hex=hex(base_point)).bin
+print(basePoint)
+print(bin(basePoint, 2))
+# Verifier que y^2 - x^3 - 7 % p == 0
+# Avec p = 2^256 - 2^32 - 977
