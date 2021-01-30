@@ -58,15 +58,25 @@ hashRandKey = hashlib.sha256(entropy.encode()).hexdigest()
 checksum = BitArray(hex=hashRandKey).bin[0:4]
 print(checksum)
 print(bin(944))
-# root_seed = 
-# hash_512 = hashlib.sha512(str(root_seed).encode('ASCII')).hexdigest()
-# bin_hash = BitArray(hex=hash_512).bin
-# master_private_k = bin_hash[:256]
-# master_chain_code = bin_hash[256:]
 
-base_point = '0279BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F81798'
-basePoint = BitArray(hex=hex(base_point)).bin
-print(basePoint)
-print(bin(basePoint, 2))
+
+# From a root seed, we can find the master private key and the master chain code
+root_seed = 100110101010000000001010001101110101101011100011010010011101110001011100000101100111011110010001100110001100101100000110010111100100
+# hashing the root seed using SHA512
+hash_512 = hashlib.sha512(str(root_seed).encode('ASCII')).hexdigest()
+bin_hash = BitArray(hex=hash_512).bin
+# Separating the master private key from the master chain code
+master_private_k = bin_hash[:256]
+master_chain_code = bin_hash[256:]
+print('mprv key', master_private_k)
+print('chain code', master_chain_code)
+
+
+# base_point = '0279BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F81798'
+# basePoint = BitArray(hex=hex(base_point)).bin
+# print(basePoint)
+# print(bin(basePoint, 2))
 # Verifier que y^2 - x^3 - 7 % p == 0
-# Avec p = 2^256 - 2^32 - 977
+# Avec p = 2^256 - 2^32 - 977 
+
+# public key K = k * G where G is basepoint and k private key

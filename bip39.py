@@ -6,12 +6,11 @@ import pandas as pd
 # Importing the list of words in a pandas Dataframe
 df = pd.read_fwf('bip39_wordlist.txt', header=None, columns="bip39")
 df = df.rename(columns={0: "bip39"})
-
 # Generating random number
 randKey = secrets.randbits(128)
 print(randKey)
 # Hash of the randomly generated number
-hashRandKey = hashlib.sha256(str(randKey).encode('ASCII')).hexdigest()
+hashRandKey = hashlib.sha256(bin(randKey)).hexdigest()
 
 # Checksum from the hashed random number
 checksum = BitArray(hex=hashRandKey).bin[0:4]
