@@ -8,19 +8,22 @@ df = pd.read_fwf('bip39_wordlist.txt', header=None, columns="bip39")
 df = df.rename(columns={0: "bip39"})
 # Generating random number
 randKey = secrets.randbits(128)
-print(randKey)
+print('Random 128bits integer :', randKey)
+
 # Hash of the randomly generated number
-hashRandKey = hashlib.sha256(bin(randKey)).hexdigest()
+binKey = int(bin(randKey)[2:])
+privatekey = hex(randKey)[2:]
+print('entropy', privatekey)
+hashRandKey = hashlib.sha256(bytes.fromhex(privatekey)).hexdigest()
 
 # Checksum from the hashed random number
-checksum = BitArray(hex=hashRandKey).bin[0:4]
-print(checksum)
-# Entropy from the random number
-entropy = BitArray(hex=hex(randKey)).bin
-
+checksum = hashRandKey[0]
+print('Checksum :',checksum)
 # binary of 132bits long
-listWord = entropy + checksum
-print(listWord)
+listWord = privatekey + checksum
+print('Entropy + Checksum :', listWord)
+listWord = bin(int(listWord, 16))[2:].zfill(132)
+print('binary seed phrase :', listWord)
 
 # Splitting the 132bit into 11 sequences of 12bits
 words = []
@@ -30,19 +33,19 @@ for i in range(len(listWord)):
     if i%11 == 10:
         words.append(temp_word)
         temp_word=''
-print(words)
+print('List of words :', words)
 
 # Getting the correct integer for each sequence
 corr_word = []
 for word in words:
     corr_word.append(int(word, 2))
-print(corr_word)
+print('Index of words :', corr_word)
 
 # Matching the integer to the words using the dataframe
 seedPhrase = []
 for word in corr_word:
     seedPhrase.append(df.iloc[word, 0])
-print(seedPhrase)
+print('Seed Phrase :', seedPhrase)
 
 
 # Checks if the dataframe contains the words in input
@@ -68,4 +71,3 @@ def import_seed():
             print('Retry')
             import_seed()
     print(seed)
-import_seed()
